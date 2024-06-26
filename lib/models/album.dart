@@ -14,7 +14,7 @@ class Album {
     return 'Album{title: $title, numero: $numero, year: $year, yearInColor: $yearInColor, image: $image, resume: $resume}';
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(list) {
     return {
       'title': title,
       'numero': numero,
