@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tintin/models/album.dart';
 import 'package:tintin/services/album_service.dart';
+import 'package:tintin/widgets/album_preview.dart';
 
 class AlbumsMaster extends StatelessWidget {
   const AlbumsMaster({super.key});
@@ -30,9 +31,10 @@ class AlbumsMaster extends StatelessWidget {
                     ),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                          title: Text(data![index].title),
-                      );
+                      return AlbumPreview(album: data![index]);
+                      // return ListTile(
+                      //     title: Text(data![index].title),
+                      // );
                     },
                   )
                 ];
