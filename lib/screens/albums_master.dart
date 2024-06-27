@@ -16,13 +16,13 @@ class AlbumsMaster extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Container(
         child: FutureBuilder(
-          future: AlbumService.generateAlbums(),
+          future: AlbumService.fetchAlbums(),
           builder: (context, snapshot) {
             List<Widget> children;
             if (snapshot.hasData) {
               List<Album>? data = snapshot.data;
               children = <Widget>[
-                ListView.builder(
+                Expanded(child: ListView.builder(
                   itemCount: data?.length,
                   prototypeItem: const ListTile(
                     title: Text('Liste des albums'),
@@ -34,7 +34,7 @@ class AlbumsMaster extends StatelessWidget {
                     //     title: Text(data![index].title),
                     // );
                   },
-                )
+                ))
               ];
             } else {
               children = const <Widget>[

@@ -6,12 +6,23 @@ class Album {
   String image;
   String resume;
 
-  Album(this.title, this.numero, this.year, this.yearInColor, this.image, this.resume);
+  Album({required this.title, required this.numero, required this.year, required this.yearInColor, required this.image, required this.resume});
 
   @override
   String toString() {
     print('Album{title: $title, numero: $numero, year: $year, yearInColor: $yearInColor, image: $image, resume: $resume}');
     return 'Album{title: $title, numero: $numero, year: $year, yearInColor: $yearInColor, image: $image, resume: $resume}';
+  }
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      title: json['title'],
+      numero: json['numero'],
+      year: json['year'],
+      yearInColor: 10,
+      image: 'images/${json['image']}',
+      resume: json['resume'],
+    );
   }
 
   Map<String, dynamic> toJson(list) {
