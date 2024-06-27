@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
-
 import '../models/album.dart';
 
-class AlbumDetails extends StatelessWidget {
+class AlbumDetails extends StatefulWidget {
+  final Album album;
+
   const AlbumDetails({super.key, required this.album});
 
-  final Album album;
+  @override
+  _AlbumDetailsState createState() => _AlbumDetailsState();
+}
+
+class _AlbumDetailsState extends State<AlbumDetails> {
+  final Set<Album> listAlbums = {};
+
+  void toggleAlbum() {
+    setState(() {
+      if (listAlbums.contains(widget.album)) {
+        listAlbums.remove(widget.album);
+      } else {
+        listAlbums.add(widget.album);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +38,30 @@ class AlbumDetails extends StatelessWidget {
             children: <Widget>[
               ListTile(
                 leading: CircleAvatar(
-                  backgroundImage: AssetImage(album.image),
+                  backgroundImage: AssetImage(widget.album.image),
                 ),
-                title: Text(album.title),
-                subtitle: Text(album.resume),
+                title: Text(widget.album.title),
+                subtitle: Text(widget.album.resume),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Numéro : ${album.numero.toString()}'),
+                  Text('Numéro : ${widget.album.numero.toString()}'),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text('Année de parution : ${album.year.toString()}'),
+                  Text('Année de parution : ${widget.album.year.toString()}'),
                 ],
               ),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.large(
+        onPressed: toggleAlbum,
+        child: Icon(listAlbums.contains(widget.album) ? Icons.remove : Icons.add),
       ),
     );
   }
