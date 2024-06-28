@@ -18,9 +18,9 @@ class AlbumDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Album Details'),
-        backgroundColor: Colors.blueGrey[600],
+        // backgroundColor: Colors.blueGrey[600],
       ),
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: Center(
         child: Card(
           child: Column(
@@ -30,8 +30,20 @@ class AlbumDetails extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundImage: AssetImage(album.image),
                 ),
-                title: Text(album.title),
-                subtitle: Text(album.resume),
+                title: Text(
+                  album.title,
+                  style: TextStyle(
+                    color: isInReadingList ? Colors.lightGreenAccent : Colors.white,
+                    fontWeight: isInReadingList ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                subtitle: Text(
+                  album.resume,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -51,10 +63,10 @@ class AlbumDetails extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          onToggleReadingList(album); // Appel de la fonction dans AlbumsMaster
-          Navigator.pop(context); // Retour à l'écran précédent
+          onToggleReadingList(album);
+          Navigator.pop(context);
         },
-        child: Icon(isInReadingList ? Icons.remove : Icons.add), // Affichage de l'icône en fonction de l'état
+        child: Icon(isInReadingList ? Icons.remove : Icons.add),
       ),
     );
   }

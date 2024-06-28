@@ -19,7 +19,7 @@ class AlbumPreview extends StatelessWidget {
       title: Text(
         album.title,
         style: TextStyle(
-          color: isInReadingList ? Colors.blue : Colors.black,
+          color: isInReadingList ? Colors.lightGreenAccent : Colors.white,
           fontWeight: isInReadingList ? FontWeight.bold : FontWeight.normal,
         ),
       ),
