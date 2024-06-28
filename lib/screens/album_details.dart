@@ -1,33 +1,23 @@
 import 'package:flutter/material.dart';
 import '../models/album.dart';
 
-class AlbumDetails extends StatefulWidget {
+class AlbumDetails extends StatelessWidget {
   final Album album;
+  final bool isInReadingList;
+  final Function(Album) onToggleReadingList;
 
-  const AlbumDetails({super.key, required this.album});
-
-  @override
-  _AlbumDetailsState createState() => _AlbumDetailsState();
-}
-
-class _AlbumDetailsState extends State<AlbumDetails> {
-  final Set<Album> listAlbums = {};
-
-  void toggleAlbum() {
-    setState(() {
-      if (listAlbums.contains(widget.album)) {
-        listAlbums.remove(widget.album);
-      } else {
-        listAlbums.add(widget.album);
-      }
-    });
-  }
+  const AlbumDetails({
+    required this.album,
+    required this.isInReadingList,
+    required this.onToggleReadingList,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Albums'),
+        title: const Text('Album Details'),
         backgroundColor: Colors.blueGrey[600],
       ),
       backgroundColor: Colors.white,
@@ -38,30 +28,33 @@ class _AlbumDetailsState extends State<AlbumDetails> {
             children: <Widget>[
               ListTile(
                 leading: CircleAvatar(
-                  backgroundImage: AssetImage(widget.album.image),
+                  backgroundImage: AssetImage(album.image),
                 ),
-                title: Text(widget.album.title),
-                subtitle: Text(widget.album.resume),
+                title: Text(album.title),
+                subtitle: Text(album.resume),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Numéro : ${widget.album.numero.toString()}'),
+                  Text('Numéro : ${album.numero.toString()}'),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text('Année de parution : ${widget.album.year.toString()}'),
+                  Text('Année de parution : ${album.year.toString()}'),
                 ],
               ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: toggleAlbum,
-        child: Icon(listAlbums.contains(widget.album) ? Icons.remove : Icons.add),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          onToggleReadingList(album); // Appel de la fonction dans AlbumsMaster
+          Navigator.pop(context); // Retour à l'écran précédent
+        },
+        child: Icon(isInReadingList ? Icons.remove : Icons.add), // Affichage de l'icône en fonction de l'état
       ),
     );
   }

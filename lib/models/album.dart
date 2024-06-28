@@ -35,4 +35,14 @@ class Album {
       'resume': resume
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Album &&
+              runtimeType == other.runtimeType &&
+              title == other.title;
+
+  @override
+  int get hashCode => title.hashCode;
 }

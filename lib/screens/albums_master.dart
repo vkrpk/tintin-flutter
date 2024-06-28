@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:tintin/models/album.dart';
-import 'package:tintin/services/album_service.dart';
-import 'package:tintin/widgets/album_preview.dart';
+import '../models/album.dart';
+import '../services/album_service.dart';
+import '../widgets/album_preview.dart';
 
-class AlbumsMaster extends StatelessWidget {
+class AlbumsMaster extends StatefulWidget {
   const AlbumsMaster({super.key});
+
+  @override
+  _AlbumsMasterState createState() => _AlbumsMasterState();
+}
+
+class _AlbumsMasterState extends State<AlbumsMaster> {
+  final List<Album> _readingList = [];
+
+  void toggleReadingList(Album album) {
+    setState(() {
+      if (_readingList.contains(album)) {
+        _readingList.remove(album);
+      } else {
+        _readingList.add(album);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,42 +31,27 @@ class AlbumsMaster extends StatelessWidget {
         backgroundColor: Colors.blueGrey[600],
       ),
       backgroundColor: Colors.white,
-      body: Container(
-        child: FutureBuilder(
-          future: AlbumService.fetchAlbums(),
-          builder: (context, snapshot) {
-            List<Widget> children;
-            if (snapshot.hasData) {
-              List<Album>? data = snapshot.data;
-              children = <Widget>[
-                Expanded(child: ListView.builder(
-                  itemCount: data?.length,
-                  prototypeItem: const ListTile(
-                    title: Text('Liste des albums'),
-                  ),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return AlbumPreview(album: data![index]);
-                    // return ListTile(
-                    //     title: Text(data![index].title),
-                    // );
-                  },
-                ))
-              ];
-            } else {
-              children = const <Widget>[
-                Text('No data'),
-              ];
-            }
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: children,
-              ),
+      body: FutureBuilder<List<Album>>(
+        future: AlbumService.fetchAlbums(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Album>? data = snapshot.data;
+            return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (context, index) {
+                return AlbumPreview(
+                  album: data![index],
+                  isInReadingList: _readingList.contains(data[index]),
+                  onToggleReadingList: toggleReadingList,
+                );
+              },
             );
-          },
-        ),
+          } else {
+            return const Center(child: Text('No data'));
+          }
+        },
       ),
     );
   }
 }
+
